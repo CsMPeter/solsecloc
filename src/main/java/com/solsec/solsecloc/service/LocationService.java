@@ -5,10 +5,17 @@ import com.solsec.solsecloc.domain.Location;
 import com.solsec.solsecloc.exception.ResourceNotFoundException;
 import com.solsec.solsecloc.persistence.LocationRepository;
 import com.solsec.solsecloc.transfer.request.SaveLocationRequest;
+import com.solsec.solsecloc.transfer.response.LocationResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -37,5 +44,14 @@ public class LocationService {
         LOGGER.info("Retrieving location {}",id);
         return locationRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Location" + id + "does not exist."));
+    }
+
+    public List<Location> getAllLocations(){
+        return locationRepository.findAll();
+    }
+
+    public void deleteLocation(long id){
+        LOGGER.info("Removing location {},id");
+        locationRepository.deleteById(id);
     }
 }
